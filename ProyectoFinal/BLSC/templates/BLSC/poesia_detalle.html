@@ -1,0 +1,42 @@
+{% extends 'BLSC/signin.html' %}
+
+{% block content %}
+
+<br>
+<br>
+
+<div class="container">
+
+<p><h4>{{poesia.titulo}}</h4></p>
+
+{% if poesia.imagenObra %}
+    <p><img src="{{guitarra.imagenInstrumento.url}}" alt=""></p>
+{% endif %}
+<p>Título: {{poesia.titulo}}</p>
+<p>Género: {{guitarra.tipo}}</p>
+<p>Autor: {{guitarra.autorn}}</p>
+<p>Año de publicación de la obra: {{poesia.año}}</p>
+<p>Fecha de la publicación: {{poesia.fechaPublicacion}}</p>
+<p>Email del usuario: {{poesia.emailUsuario}}</p>
+
+</div>
+<br>
+<div class="container">
+    <h4>Comentarios...</h4>
+    <br>
+    <div class="container">
+    {% if not poesia.comentarios.all %}
+        Aún no se han hecho comentarios sobre esta obra.
+    {% else %}
+        {% for comentario in poesia.comentarios.all %}
+        <p><strong>{{comentario.nombre}}</strong></p>
+        <p>{{comentario.mensaje}}</p>
+        <p><small>{{comentario.fechaComentario}}</small></p>
+        <hr>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'comentario' guitarra.pk %}">Agrega un Comentario</a>
+    </div>
+</div>
+<br>
+{% endblock %}

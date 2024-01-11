@@ -1,0 +1,123 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>BLSC</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('{% static 'BLSC/img/pclibro.jpg' %}');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+        }
+
+        nav {
+            margin-bottom: auto; /* Esto empujará el navbar hacia arriba */
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff; /* Color blanco */
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        form {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #343a40;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .error-list {
+            color: red;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+             <a class="navbar-brand" href="{% url 'BLSC:home' %}" style="font-family: 'Open Sans', sans-serif; color: #fff;"><h5><strong>HOME</strong></h5></a>
+            <!-- Puedes ajustar el color aquí según sea necesario -->
+        </div>
+    </nav>
+
+    <h2 style="text-align: center;">
+        <strong>Registrate y formá parte de esta comunidad</strong><br>
+        <strong>apasionada por la lectura.</strong>
+    </h2>
+    
+    <form action="/BLSC/signin" method="POST">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <label style="font-family: 'Open Sans', sans-serif;">{{ field.label_tag }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <ul class="error-list">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <input type="submit" value="Registrar">
+    </form>
+</body>
+</html>
+

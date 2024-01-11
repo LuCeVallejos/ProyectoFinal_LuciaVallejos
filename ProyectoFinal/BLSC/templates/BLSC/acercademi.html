@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'BLSC/css/styles.css' %}" />
+    <style>
+        body {
+            background-image: url('{% static 'BLSC/img/pclibro.jpg' %}');
+            background-size: cover;
+            background-position: center center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            padding: 20px;
+            color: #fff;
+        }
+
+        nav {
+            margin-bottom: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .card {
+            background-color: #131514;
+            color: #fff;
+            padding: 60px;
+            margin-bottom: 60px;
+        }
+
+        img {
+            border: 2px solid #fff;
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-family: 'Open Sans', sans-serif;
+            margin-bottom: 20px; /* Espacio adicional después del texto */
+        }
+
+        a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .site-heading h1 {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="{% url 'BLSC:signin' %}">REGISTRATE</a>
+            <a class="navbar-brand" href="{% url 'BLSC:login' %}" style="margin-left: 180px;">INGRESÁ A TU CUENTA</a>
+            <a class="navbar-brand" href="{% url 'BLSC:home' %}" style="margin-left: 180px;">HOME</a>
+            <a class="navbar-brand" href="{% url 'BLSC:blogpages' %}" style="margin-left: 180px;">BLOG</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <h2></h2>
+        <div class="row">
+            <div class="col-md-6 col-lg-3">
+                <div class="card">
+                    <img src="{% static 'BLSC/imagenes/foto perfil circulo 2.png' %}" class="rounded-circle" width="150px">
+                    <h3 class="card-title">Lucía Vallejos</h3>
+                    <p class="card-text">Exploradora de Datos y Psicóloga en formación 📊🧠 | Apasionada por unir la ciencia de los datos con el entendimiento humano 🌐✨</p>
+                    <p class="card-text">Podés seguirme o contactarme en mi cuenta de <a href="https://www.linkedin.com/in/lucia-vallejos-" target="_blank">LinkedIn</a></p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="">
+                    <div class="text-center">
+                        <h2 style="text-align: center;">
+                            <strong>¡Hola! Soy Lu 👋🏻<br></strong><br>
+                        </h2>
+                               📈 Actualmente me aventuro en el emocionante y desafiante mundo de los datos.<br>
+                                
+                               📚 Estudio Psicología, una disciplina que me dota de herramientas para acercarme a las personas<br></h1>
+                                
+                                de manera empática y analítica.<br>
+                                
+                                ➡️ Trabajo en el rubro de la traducción hace ya varios años<br>
+                                
+                                sin embargo actualmente me encuentro en una búsqueda activa por nuevos desafíos. <br>
+                                
+                                Busco ser parte de una organización que tenga como pilares la tecnología, la innovación,<br>
+                                
+                                el trabajo colaborativo, la mejora continua y el respeto interpersonal.<br>
+                                
+                                👉🏻 Soy creativa y con un perfil analítico. ¡Mi pasión por el aprendizaje constante me impulsa cada día!<br>
+                                
+                                Estoy entusiasmada por explorar oportunidades que me permitan fusionar mi formación en Psicología<br>
+                                
+                                con mi creciente interés en el análisis de datos.<br>
+                                
+                                ¡Gracias por echarle un ojo a mi proyecto!
+                        </h2>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="{% static 'BLSC/js/scripts.js' %}"></script>
+</body>
+</html>
