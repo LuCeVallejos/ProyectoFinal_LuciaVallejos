@@ -1,64 +1,77 @@
-from django.shortcuts import render
-from .forms import UserCreationFormulario
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm, UserEditionFormulario
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth import login, authenticate
-from . import models
-from .models import Obra, Comentario
-from django.urls import reverse_lazy
+from django.contrib.auth import login, authenticate
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from .models import Avatar
+
 
 
 ##### HOME (INICIO):
 
 def home_view(request):
-    return render(request, "BLSC/home.html")
+    if request.user.is_authenticated:
+        usuario = request.user
+        avatar = Avatar.objects.filter(user=usuario).first()
+        avatar_url = avatar.imagen.url if avatar is not None else ""
+    else:
+        avatar_url = ""
+
+    return render(request, "BLSC/home.html", context={"avatar_url": avatar_url})
 
 
+
+##### ABOUT:
 def acercademi_view(request):
     return render(request, "BLSC/acercademi.html")
+
+
 
 ##### SIGN IN, LOGIN Y LOGOUT:
 
 def signin_view(request):
-
     if request.method == "GET":
         return render(
             request,
             "BLSC/signin.html",
-            {"form": UserCreationFormulario()}
+            {"form": CustomUserCreationForm()}
         )
     else:
-        formulario = UserCreationFormulario(request.POST)
+        formulario = CustomUserCreationForm(request.POST)
         if formulario.is_valid():
             informacion = formulario.cleaned_data
             usuario = informacion["username"]
             formulario.save()
 
-            return render(
-                request,
-                "BLSC/home.html",
-                {"mensaje": f"Usuario creado: {usuario}"}
-            )
+            # Construir la URL con el mensaje como parámetro
+            url_signinok = reverse('BLSC:signinok') + f'?mensaje=Usuarix creadx: {usuario}'
+            return redirect(url_signinok)
         else:
             return render(
                 request,
-                "BLSC/login.html",
+                "BLSC/signin.html",
                 {"form": formulario}
             )
-        
+
+
+
+def signinok_view(request):
+    mensaje = request.GET.get('mensaje', '')
+    return render(request, "BLSC/signinok.html", {"mensaje": mensaje})
 
 
 
 def login_view(request):
-
+    # Verifica si el usuario ya está autenticado
     if request.user.is_authenticated:
         return render(
             request,
-            "BLSC/home.html",
-            {"mensaje": f"Ya estás autenticado: {request.user.username}"}
+            "BLSC/signinok.html",
+            {"mensaje": f"¡¡Hola, @{request.user.username}!! Estás logeadx y puedes interactuar libremente en nuestra página."}
         )
-    
+
     if request.method == "GET":
         return render(
             request,
@@ -71,16 +84,13 @@ def login_view(request):
         if formulario.is_valid():
             informacion = formulario.cleaned_data
             usuario = informacion["username"]
-            password = informacion ["password"]
+            password = informacion["password"]
 
             modelo = authenticate(username=usuario, password=password)
             login(request, modelo)
 
-            return render(
-                request,
-                "BLSC/home.html",
-                {"mensaje": f"Bienvenidx {modelo.username}"}
-            )
+            # Redirige al usuario a la página de inicio
+            return redirect('BLSC:home')
         else:
             return render(
                 request,
@@ -89,40 +99,44 @@ def login_view(request):
             )
 
 
-####VIEWS PARA OBRAS:
-        
-def blogpages_view(request):
-    obras = models.Obra.objects.all()
-    context = {"blogpages":obras}
-    return render(request, "BLSC/blog_pages.html", context)
+
+##### EDITAR PERFIL:
+
+@login_required
+def editarperfil_view(request):
+
+    usuario = request.user
+    avatar = Avatar.objects.filter(user=usuario).last()
+    avatar_url = avatar.imagen.url if avatar is not None else ""
 
 
-def lista_poesias_view(request):
-    poesias = Obra.objects.filter(tipo="poesia")
 
-    return render(request, 'lista_poesias.html', {'poesias': poesias})
+    if request.method == "GET":
 
 
-class PoesiaLista(LoginRequiredMixin, ListView):
-    context_object_name = 'poesias'
-    queryset = Obra.objects.filter(tipo__startswith='poesía')
-    template_name = 'BLSC/lista_poesias.html'
-    login_url = '/login/'
+        valores_iniciales = {
+            "email": usuario.email,
+            "first_name": usuario.first_name,
+            "last_name": usuario.last_name
+        }
 
-class PoesiaDetalle(LoginRequiredMixin, DetailView):
-    model = Obra
-    context_object_name = 'poesia'
-    template_name = 'BLSC/poesia_detalle.html'
 
-#class PoesiaUpdate(LoginRequiredMixin, UpdateView):
-#    model = Obra
-#    form_class = ActualizacionObra
-#    success_url = reverse_lazy('poesias')
-#    context_object_name = 'poesia'
-#    template_name = 'BLSC/poesia_edicion.html'
+        formulario = UserEditionFormulario(initial=valores_iniciales)
+        return render(
+            request,
+            "BLSC/editarperfil.html",
+            context={"form": formulario, "usuario": usuario, "avatar_url": avatar_url}
+        )
+    else:
+        formulario = UserEditionFormulario(request.POST)
+        if formulario.is_valid():
+            informacion = formulario.cleaned_data
 
-#class GuitarraDelete(LoginRequiredMixin, DeleteView):
-#    model = Obra
-#    success_url = reverse_lazy('poesias')
-#    context_object_name = 'poesia'
-#    template_name = 'Base/guitarraBorrado.html'
+            usuario.email = informacion["email"]
+
+            usuario.set_password(informacion["password1"])
+
+            usuario.first_name = informacion["first_name"]
+            usuario.last_name = informacion["last_name"]
+            usuario.save()
+        return redirect("BLSC:home")

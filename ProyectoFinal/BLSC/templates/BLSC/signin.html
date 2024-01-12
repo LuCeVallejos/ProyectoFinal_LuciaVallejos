@@ -98,7 +98,7 @@
         <strong>apasionada por la lectura.</strong>
     </h2>
     
-    <form action="/BLSC/signin" method="POST">
+    <form action="{% url 'BLSC:signin' %}" method="POST">
         {% csrf_token %}
 
         {% for field in form %}

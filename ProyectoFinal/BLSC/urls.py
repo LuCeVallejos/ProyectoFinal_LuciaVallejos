@@ -1,7 +1,9 @@
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 from BLSC.views import home_view
-from .views import signin_view, login_view, blogpages_view, PoesiaLista, lista_poesias_view, acercademi_view
+from .views import signin_view, signinok_view, login_view, acercademi_view, editarperfil_view
+
 
 app_name = "BLSC"
 
@@ -11,17 +13,9 @@ urlpatterns = [
     path('acercademi/', acercademi_view, name='acercademi'),
 ##### URLs PARA SIGN IN, LOGIN Y LOGOUT
     path('signin/', signin_view, name='signin'),
+    path('signinok/', signinok_view, name='signinok'),
     path('login/', login_view, name='login'),
-##### LISTA DE OBRAS
-    path('blogpages/', blogpages_view, name='blogpages'),
-    path('blogpagespoesias/', PoesiaLista.as_view, name='blogpagespoesias'),
-    path('listapoesias/', lista_poesias_view, name='listapoesias'),
-    #path('blogpagesficcion/', PoesiaDetalle.as_view, name='blogpagesficcion'),
+    path('logout/', LogoutView.as_view(template_name="BLSC/logout.html"), name='logout'),
+##### EDITAR USUARIO
+    path('editarperfil/', editarperfil_view, name='editarperfil'),
 ]
-
-
-from django.conf import settings
-from django.conf.urls.static import static
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

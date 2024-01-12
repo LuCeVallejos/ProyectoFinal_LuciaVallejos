@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>BLSC</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('{% static 'BLSC/img/pclibro.jpg' %}');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav {
+            width: 100%;
+            background-color: transparent; /* Fondo transparente */
+            padding: 15px;
+            position: absolute;
+            top: 0; /* Ajuste en la parte superior */
+        }
+
+        h2 {
+            text-align: center;
+            color: #181111; /* Color blanco */
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .card {
+            width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        a {
+            margin: 10px;
+            color: #fff; /* Color blanco */
+        }
+    </style>
+</head>
+
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav" style="background-color: transparent; position: fixed; width: 100%; z-index: 100;">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand text-white" href="{% url 'BLSC:login' %}" style="margin-left: 10px;"><strong>INGRESÁ A TU CUENTA</strong></a>
+        <a class="navbar-brand text-white" href="{% url 'BLSC:logout' %}" style="margin-left: 120px;"><strong>CERRÁ SESIÓN</strong></a>
+        <a class="navbar-brand text-white" href="{% url 'BLSC:home' %}" style="margin-left: 150px;"><strong>HOME</strong></a>
+        <a class="navbar-brand text-white" href="{% url 'BLSC:acercademi' %}" style="margin-left: 180px;"><strong>SOBRE MÍ</strong></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% block contenidoquecambia %}
+    <div class="card">
+        <h2>{{ mensaje }}</h2>
+    </div>
+{% endblock contenidoquecambia %}
+</body>
+
+</html>

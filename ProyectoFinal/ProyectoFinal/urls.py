@@ -21,3 +21,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("BLSC.urls")),
 ]
+
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+url_patterns_for_media = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = urlpatterns + url_patterns_for_media
